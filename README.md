@@ -11,13 +11,13 @@
 
 Tags  | Dockerfile  | OS Version  |  Libgpiod Version
 ------------- | --  | --  | --
-`:aarch64` `:latest` | [Dockerfile](https://github.com/devdotnetorg/docker-libgpiod/blob/master/Dockerfile.alpine) | `alpine:3.13.5` | Latest ([v1.6.3](https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/snapshot/libgpiod-1.6.3.tar.gz))
+`:aarch64` `:latest` | [Dockerfile](https://github.com/devdotnetorg/dotnet-libgpiod-gpioset/blob/master/Dockerfile.alpine) | `alpine:3.13.5` | Latest ([v1.6.3](https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/snapshot/libgpiod-1.6.3.tar.gz))
 
 ### Linux amd64 Tags ###
 
 Tags  | Dockerfile  | OS Version  |  Libgpiod Version
 ------------- | --  | --  | --
-`:amd64` `:latest` | [Dockerfile](https://github.com/devdotnetorg/docker-libgpiod/blob/master/Dockerfile.alpine) | `alpine:3.13.5` | Latest ([v1.6.3](https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/snapshot/libgpiod-1.6.3.tar.gz))
+`:amd64` `:latest` | [Dockerfile](https://github.com/devdotnetorg/dotnet-libgpiod-gpioset/blob/master/Dockerfile.alpine) | `alpine:3.13.5` | Latest ([v1.6.3](https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/snapshot/libgpiod-1.6.3.tar.gz))
 
 ## Quick Start
 
@@ -55,4 +55,4 @@ LED OFF
 
   [1]: https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/
   [2]: https://github.com/devdotnetorg/docker-libgpiod
-  [3]: https://github.com/devdotnetorg/docker-libgpiod/raw/master/LICENSE
+  [3]: https://github.com/devdotnetorg/dotnet-libgpiod-gpioset/raw/master/LICENSE
