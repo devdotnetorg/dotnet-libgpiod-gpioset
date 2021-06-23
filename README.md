@@ -21,7 +21,7 @@ Tags  | Dockerfile  | OS Version  |  Libgpiod Version
 
 ## Quick Start
 
-The dotnet-gpioset program uses the [Libgpiod] [1] library to control GPIO Developer boards, written in C # .NET5. Performs the same functions as the **gpioset** program. The input parameters are the same. A Docker image with the Libgpiod library is available - [docker-libgpiod] [2].
+The dotnet-gpioset program uses the [Libgpiod][1] library to control GPIO Developer boards, written in C # .NET5. Performs the same functions as the **gpioset** program. The input parameters are the same. A Docker image with the Libgpiod library is available - [docker-libgpiod][2].
 
 Running **dotnet-gpioset**. Turning on LED on Banana Pi M64 (ARM64), 1 - gpiochip1, 36 - control pin number, 1 - "true" value corresponds to 3V3 voltage:
 
