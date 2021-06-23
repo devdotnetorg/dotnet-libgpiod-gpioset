@@ -18,17 +18,11 @@ set -e
 
 echo "Start BUILDX"
 
-# LIBGPIOD_VERSION=1.6.3
-
 #:amd64
-docker buildx build --platform linux/amd64 -f Dockerfile.alpine --build-arg LIBGPIOD_VERSION=1.6.3 -t devdotnetorg/libgpiod:1.6.3-amd64 . --push
+docker buildx build --platform linux/amd64 -f Dockerfile.alpine -t devdotnetorg/dotnet-gpioset:amd64 . --push
 #:aarch64
-docker buildx build --platform linux/arm64 -f Dockerfile.alpine --build-arg LIBGPIOD_VERSION=1.6.3 -t devdotnetorg/libgpiod:1.6.3-aarch64 . --push
-#:armhf
-docker buildx build --platform linux/arm -f Dockerfile.alpine --build-arg LIBGPIOD_VERSION=1.6.3 -t devdotnetorg/libgpiod:1.6.3-armhf . --push
-#:all platform
-docker buildx build --platform linux/arm,linux/arm64,linux/amd64 -f Dockerfile.alpine --build-arg LIBGPIOD_VERSION=1.6.3 -t devdotnetorg/libgpiod:1.6.3 . --push
-#:latest
-docker buildx build --platform linux/arm,linux/arm64,linux/amd64 -f Dockerfile.alpine --build-arg LIBGPIOD_VERSION=1.6.3 -t devdotnetorg/libgpiod:latest . --push
+docker buildx build --platform linux/arm64 -f Dockerfile.alpine -t devdotnetorg/dotnet-gpioset:aarch64 . --push
+#:latest all platform
+docker buildx build --platform linux/arm64,linux/amd64 -f Dockerfile.alpine -t devdotnetorg/dotnet-gpioset:latest . --push
 
 echo "BUILDX END"

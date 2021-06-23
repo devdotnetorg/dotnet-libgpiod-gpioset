@@ -1,42 +1,34 @@
-########################
-# Image Alpine with libgpiod
-# C library and tools for interacting with the linux GPIO character device
-########################
+#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM alpine:3.13.5 as prep
+FROM devdotnetorg/libgpiod:1.6.3 AS sourcelibgpiod
 
-ARG LIBGPIOD_VERSION=1.6.3
+FROM mcr.microsoft.com/dotnet/runtime:5.0-alpine AS base
+WORKDIR /app
 
-RUN apk update && apk upgrade
-RUN apk add curl autoconf automake autoconf-archive libtool pkgconfig tar zip
-RUN apk add gawk mawk build-base gcc make g++ zlib-dev linux-headers
+FROM mcr.microsoft.com/dotnet/sdk:5.0-focal AS build
+WORKDIR /src
+COPY ["src/dotnet-gpioset.csproj", "."]
+RUN dotnet restore "./dotnet-gpioset.csproj"
+COPY /src/. .
+WORKDIR "/src/."
+RUN dotnet build "dotnet-gpioset.csproj" -c Release -o /app/build
 
-RUN mkdir -p /libgpiod \
-	&& cd /libgpiod \
-	&& curl -SL --output libgpiod.tar.gz https://git.kernel.org/pub/scm/libs/libgpiod/libgpiod.git/snapshot/libgpiod-$LIBGPIOD_VERSION.tar.gz \
-	&& tar -ozxf libgpiod.tar.gz -C /libgpiod \
-	&& rm libgpiod.tar.gz \
-	&& cd /libgpiod/libgpiod-$LIBGPIOD_VERSION \
-	&& mkdir -p /usr/share/libgpiod \
-	&& mkdir -p /usr/share/libgpiod/share \
-	&& chmod +x autogen.sh
-RUN cd /libgpiod/libgpiod-$LIBGPIOD_VERSION \
-	&& ./autogen.sh --enable-tools=yes --prefix=/usr/share/libgpiod ac_cv_func_malloc_0_nonnull=yes \
-	&& make \
-	&& make install
-#
-RUN cp /usr/share/libgpiod/bin/gpio* /usr/bin/ \
-	&& cp /usr/share/libgpiod/lib/libgpiod* /usr/lib/ \
-	&& zip -r9 /artifacts.zip /usr/bin/gpio* /usr/lib/libgpiod*
-FROM alpine:3.13.5
+FROM build AS publish
+RUN dotnet publish "dotnet-gpioset.csproj" -c Release -o /app/publish
+
+FROM base AS final
 MAINTAINER DevDotNet.Org <anton@devdotnet.org>
 LABEL maintainer="DevDotNet.Org <anton@devdotnet.org>"
+WORKDIR /app
+COPY --from=publish /app/publish .
+# Get libgpiod
+COPY --from=sourcelibgpiod /artifacts.zip /
 
-COPY --from=prep /artifacts.zip /
-
+# Add Libgpiod
 RUN apk update \
 	&& apk add --no-cache --upgrade zip \
 	&& unzip -o /artifacts.zip -d / \
-	&& apk del zip
+	&& apk del zip \
+	&& rm /artifacts.zip
 
-CMD ["/usr/bin/gpioinfo", "-v"]
+ENTRYPOINT ["dotnet", "dotnet-gpioset.dll"]
