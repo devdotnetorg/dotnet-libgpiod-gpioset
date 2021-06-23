@@ -24,6 +24,7 @@ COPY --from=publish /app/publish .
 # Get libgpiod
 COPY --from=sourcelibgpiod /artifacts.zip /
 
+# Add Libgpiod
 RUN apk update \
 	&& apk add --no-cache --upgrade zip \
 	&& unzip -o /artifacts.zip -d / \
