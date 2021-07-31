@@ -7,7 +7,10 @@ set -e
 
 echo "Start"
 
-docker build -f Dockerfile.alpine -t devdotnetorg/dotnet-gpioset:armhf .
-docker push devdotnetorg/dotnet-gpioset:armhf
+#:armhf
+docker buildx build --platform linux/arm -f Dockerfile.arm32.buster -t devdotnetorg/dotnet-gpioset:armhf . --load
 
 echo "END"
+
+#docker build -f Dockerfile.arm32.buster -t devdotnetorg/dotnet-gpioset:armhf .
+#docker push devdotnetorg/dotnet-gpioset:armhf
