@@ -2,24 +2,13 @@
 
 FROM devdotnetorg/libgpiod:1.6.3-focal AS sourcelibgpiod
 
-FROM mcr.microsoft.com/dotnet/runtime:5.0 AS base
+FROM mcr.microsoft.com/dotnet/runtime:5.0-buster-slim AS base
 WORKDIR /app
 
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:5.0-buster-slim AS build
 WORKDIR /src
 COPY ["src/dotnet-gpioset.csproj", "."]
-
-#start
-# && dotnet restore "./dotnet-gpioset.csproj" -r linux-arm --verbosity detailed
-
-RUN mkdir -p /root/.nuget/packages \
-	&& dotnet restore "./dotnet-gpioset.csproj" -r linux-arm --verbosity detailed
-#
-# RUN dotnet restore "./dotnet-gpioset.csproj" -r linux-arm
-
-#RUN dotnet restore "./dotnet-gpioset.csproj"
-
-###
+RUN dotnet restore "./dotnet-gpioset.csproj" -r linux-arm
 COPY /src/. .
 WORKDIR "/src/."
 RUN dotnet build "dotnet-gpioset.csproj" -c Release -o /app/build -r linux-arm
